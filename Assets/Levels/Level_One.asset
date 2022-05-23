@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6575834c2fae846b517ad2b7b12e44, type: 3}
+  m_Name: Level_One
+  m_EditorClassIdentifier: 
+  StartPosition: {x: 0, y: 0, z: 0}
+  StartDoor: {x: 0, y: 0, z: 0}
+  EndDoor: {x: 0, y: 0, z: 0}
+  PlatformOne: {x: 0, y: 0, z: 0}
+  PlatformTwo: {x: 0, y: 0, z: 0}
+  PlatformThree: {x: 0, y: 0, z: 0}
+  PlatformFour: {x: 0, y: 0, z: 0}
+  PlatformFive: {x: 0, y: 0, z: 0}
+  EnemyOne: {x: 0, y: 0, z: 0}
+  EnemyTwo: {x: 0, y: 0, z: 0}
+  EnemyThree: {x: 0, y: 0, z: 0}
+  EnemyFour: {x: 0, y: 0, z: 0}
+  TrapOne: {x: 0, y: 0, z: 0}
+  TrapTwo: {x: 0, y: 0, z: 0}
