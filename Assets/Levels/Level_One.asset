@@ -12,14 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6575834c2fae846b517ad2b7b12e44, type: 3}
   m_Name: Level_One
   m_EditorClassIdentifier: 
-  StartPosition: {x: 0, y: 0, z: 0}
-  StartDoor: {x: 0, y: 0, z: 0}
-  EndDoor: {x: 0, y: 0, z: 0}
-  PlatformOne: {x: 0, y: 0, z: 0}
-  PlatformTwo: {x: 0, y: 0, z: 0}
-  PlatformThree: {x: 0, y: 0, z: 0}
-  PlatformFour: {x: 0, y: 0, z: 0}
-  PlatformFive: {x: 0, y: 0, z: 0}
+  StartPosition: {x: -2, y: 1, z: 0}
+  EndPortal: {x: 3, y: 2, z: 0}
+  PlatformsLocation:
+  - {x: -7, y: -3, z: 0}
+  - {x: -3, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  PlatformsRotation:
+  - {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
   EnemyOne: {x: 0, y: 0, z: 0}
   EnemyTwo: {x: 0, y: 0, z: 0}
   EnemyThree: {x: 0, y: 0, z: 0}

@@ -12,16 +12,11 @@ public class LevelHandler : MonoBehaviour
     public GameObject StartPos;
     
     // Door Locations
-    public GameObject StartDoor;
-    public GameObject EndDoor;
+    public GameObject EndPortal;
 
     // Platform game Objects
     [Header("Platforms")]
-    public GameObject PlatformOne;
-    public GameObject PlatformTwo;
-    public GameObject PlatformThree;
-    public GameObject PlatformFour;
-    public GameObject PlatformFive;
+    public GameObject[] Platforms;
 
     // enemy Game Objects
     [Header("Enemies")]
@@ -34,10 +29,60 @@ public class LevelHandler : MonoBehaviour
     public GameObject TrapOne;
     public GameObject TrapTwo;
 
+    private int _level;
+    private float timeElapsed;
+    private float lerpDuration = 100;
+    private float startValue = 0;
+    private float endValue = 10;
+    private float valueToLerp;
+
+    private bool levelJustStarted;
+
     private void Start()
     {
-        Debug.Log(Levels[0].PlatformOne);
-        Debug.Log(Levels[1].PlatformOne);
+        _level = 0;
+
+    }
+
+    private void Update()
+    {
+        if (!levelJustStarted)
+        {
+            SetupLevel();
+        }
+        
+        if (timeElapsed < lerpDuration)
+        {
+            for (int i = 0; i < Platforms.Length; i++)
+            {
+                if (Levels[_level].PlatformsLocation[i] != Vector3.zero)
+                {
+                    Platforms[i].SetActive(true);
+                    Platforms[i].transform.position = Vector3.Lerp(Platforms[i].transform.position, Levels[_level].PlatformsLocation[i], timeElapsed * .01f / lerpDuration);
+                    Platforms[i].transform.rotation = Quaternion.Lerp(Platforms[i].transform.rotation, Levels[_level].PlatformsRotation[i], timeElapsed * .01f / lerpDuration);
+                    
+                }
+                else
+                {
+                    Platforms[i].SetActive(false);
+                }
+                
+                timeElapsed += Time.deltaTime;
+            }
+            
+        }
+    }
+
+    private void SetupLevel()
+    {
+        EndPortal.transform.position = Levels[_level].EndPortal;
+        StartPos.transform.position = Levels[_level].StartPosition;
+    }
+
+    private void FinishedLevel()
+    {
+        levelJustStarted = false;
+        _level++;
     }
 
     // To check if a location for level object is empty
