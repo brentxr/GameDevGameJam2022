@@ -20,18 +20,14 @@ public class LevelHandler : MonoBehaviour
 
     // enemy Game Objects
     [Header("Enemies")]
-    public GameObject EnemyOne;
-    public GameObject Enemytwo;
-    public GameObject EnemyThree;
-    public GameObject EnemyFour;
-    
+    public GameObject[] Enemies;
+
     // trap Locations
-    public GameObject TrapOne;
-    public GameObject TrapTwo;
+    public GameObject[] Traps;
 
     private int _level;
     private float timeElapsed;
-    private float lerpDuration = 100;
+    private float lerpDuration = 10;
     private float startValue = 0;
     private float endValue = 10;
     private float valueToLerp;
@@ -67,8 +63,38 @@ public class LevelHandler : MonoBehaviour
                     Platforms[i].SetActive(false);
                 }
                 
-                timeElapsed += Time.deltaTime;
+                
             }
+
+            for (int i = 0; i < Enemies.Length; i++)
+            {
+                if (Levels[_level].EnemyLocation[i] != Vector3.zero)
+                {
+                    Enemies[i].SetActive(true);
+                    Enemies[i].transform.position = Vector3.Lerp(Enemies[i].transform.position, Levels[_level].EnemyLocation[i], timeElapsed * .01f / lerpDuration);
+                    Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation, Levels[_level].EnemyRotation[i], timeElapsed * .01f / lerpDuration);
+                }
+                else
+                {
+                    Enemies[i].SetActive(false);
+                }
+            }
+            
+            for (int i = 0; i < Traps.Length; i++)
+            {
+                if (Levels[_level].TrapLocations[i] != Vector3.zero)
+                {
+                    Traps[i].SetActive(true);
+                    Traps[i].transform.position = Vector3.Lerp(Traps[i].transform.position, Levels[_level].TrapLocations[i], timeElapsed * .01f / lerpDuration);
+                    Traps[i].transform.rotation = Quaternion.Lerp(Traps[i].transform.rotation, Levels[_level].TrapRotations[i], timeElapsed * .01f / lerpDuration);
+                }
+                else
+                {
+                    Traps[i].SetActive(false);
+                }
+            }
+            
+            timeElapsed += Time.deltaTime;
             
         }
     }
@@ -83,6 +109,8 @@ public class LevelHandler : MonoBehaviour
     {
         levelJustStarted = false;
         _level++;
+        EndPortal.SetActive(false);
+        
     }
 
     // To check if a location for level object is empty

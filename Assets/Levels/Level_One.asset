@@ -26,9 +26,19 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0, w: 0}
   - {x: 0, y: 0, z: 0, w: 0}
   - {x: 0, y: 0, z: 0, w: 0}
-  EnemyOne: {x: 0, y: 0, z: 0}
-  EnemyTwo: {x: 0, y: 0, z: 0}
-  EnemyThree: {x: 0, y: 0, z: 0}
-  EnemyFour: {x: 0, y: 0, z: 0}
-  TrapOne: {x: 0, y: 0, z: 0}
-  TrapTwo: {x: 0, y: 0, z: 0}
+  EnemyLocation:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  EnemyRotation:
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  TrapLocations:
+  - {x: -2, y: 4, z: 0}
+  - {x: 0, y: 0, z: 0}
+  TrapRotations:
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}

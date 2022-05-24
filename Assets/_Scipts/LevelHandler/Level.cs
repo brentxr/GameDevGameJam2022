@@ -23,16 +23,14 @@ public class Level : ScriptableObject
     
     // Enemies
     [Header("Enemy start Locations")]
-    public Vector3 EnemyOne;
-    public Vector3 EnemyTwo;
-    public Vector3 EnemyThree;
-    public Vector3 EnemyFour;
-    
+    public Vector3[] EnemyLocation;
+    public Quaternion[] EnemyRotation;
+
     // Traps
     [Header("Trap Locations")]
-    public Vector3 TrapOne;
-    public Vector3 TrapTwo;
-    
-    
+    public Vector3[] TrapLocations;
+    public Quaternion[] TrapRotations;
+
+
 
 }
