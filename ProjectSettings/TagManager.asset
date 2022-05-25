@@ -38,14 +38,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Hazards
+    uniqueID: 4224021647
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Player
     uniqueID: 3069577067
-    locked: 0
-  - name: Hazards
-    uniqueID: 4224021647
     locked: 0
   - name: Foreground
     uniqueID: 2763737939

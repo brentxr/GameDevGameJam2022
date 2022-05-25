@@ -1,18 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelHandler : MonoBehaviour
 {
     public Level[] Levels;
+
+    public GameObject Player;
     
     // Start Postition
     [Header("Start Postition")]
     public GameObject StartPos;
     
     // Door Locations
-    public GameObject EndPortal;
+    public GameObject Portal;
 
     // Platform game Objects
     [Header("Platforms")]
@@ -25,18 +28,28 @@ public class LevelHandler : MonoBehaviour
     // trap Locations
     public GameObject[] Traps;
 
-    private int _level;
+    public TextMeshProUGUI LevelText;
+
+    public int _level;
+    public bool overrideLevel;
     private float timeElapsed;
-    private float lerpDuration = 10;
+    private float lerpDuration = 3;
     private float startValue = 0;
     private float endValue = 10;
     private float valueToLerp;
 
     private bool levelJustStarted;
+    private bool levelReady;
+    private GameObject _player;
+    
+    
 
     private void Start()
     {
-        _level = 0;
+        if (!overrideLevel)
+            _level = -1;
+        Enemy.OnTakeDamage += ResetPlayer;
+        EndPortal.OnEnterPortal += EnterEndPortal;
 
     }
 
@@ -45,6 +58,7 @@ public class LevelHandler : MonoBehaviour
         if (!levelJustStarted)
         {
             SetupLevel();
+            timeElapsed = 0;
         }
         
         if (timeElapsed < lerpDuration)
@@ -97,20 +111,50 @@ public class LevelHandler : MonoBehaviour
             timeElapsed += Time.deltaTime;
             
         }
+
+        if (timeElapsed >= lerpDuration && !levelReady)
+        {
+            GetLevelReady();
+        }
+    }
+    
+    private void EnterEndPortal()
+    {
+        Destroy(_player);
+        FinishedLevel();
+    }
+    
+    
+    private void ResetPlayer()
+    {
+        Player.transform.position = Levels[_level].StartPosition;
+    }
+
+    private void GetLevelReady()
+    {
+        _player = Instantiate(Player, Levels[_level].StartPosition, Quaternion.identity);
+        Portal.SetActive(true);
+        levelReady = true;
+
     }
 
     private void SetupLevel()
     {
-        EndPortal.transform.position = Levels[_level].EndPortal;
-        StartPos.transform.position = Levels[_level].StartPosition;
+        
+        _level++;
+        LevelText.SetText((_level + 1).ToString());
+        Portal.transform.position = Levels[_level].EndPortal;
+        levelJustStarted = true;
+        levelReady = false;
+        //StartPos.transform.position = Levels[_level].StartPosition;
     }
 
     private void FinishedLevel()
     {
         levelJustStarted = false;
-        _level++;
-        EndPortal.SetActive(false);
-        
+        //_level++;
+        Portal.SetActive(false);
+
     }
 
     // To check if a location for level object is empty
