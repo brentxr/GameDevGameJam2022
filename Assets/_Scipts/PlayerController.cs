@@ -26,16 +26,20 @@ public class PlayerController : MonoBehaviour
 
     private int _facing;
 
+    public bool canMove;
+
 
     private void Awake()
     {
         _rig = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
+        canMove = true;
     }
 
     private void FixedUpdate()
     {
-        Move();
+        if (canMove)
+            Move();
         
     }
 

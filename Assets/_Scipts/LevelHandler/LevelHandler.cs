@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelHandler : MonoBehaviour
 {
     public Level[] Levels;
 
-    public GameObject Player;
+    [FormerlySerializedAs("Player")] 
+    public GameObject PlayerPrefab;
+
+    public PlayerController playerController;
     
     // Start Postition
     [Header("Start Postition")]
@@ -49,6 +53,8 @@ public class LevelHandler : MonoBehaviour
         if (!overrideLevel)
             _level = -1;
         Enemy.OnTakeDamage += ResetPlayer;
+        Spikes.OnTakeDamage += ResetPlayer;
+        OutOfBounds.OnTakeDamage += ResetPlayer;
         EndPortal.OnEnterPortal += EnterEndPortal;
 
     }
@@ -127,12 +133,24 @@ public class LevelHandler : MonoBehaviour
     
     private void ResetPlayer()
     {
-        Player.transform.position = Levels[_level].StartPosition;
+        
+        _player.transform.position = Levels[_level].StartPosition;
+        _player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        StartCoroutine(PauseInput());
+        
+    }
+
+    IEnumerator PauseInput()
+    {
+        playerController.canMove = false;
+        yield return new WaitForSeconds(.5f);
+        playerController.canMove = true;
     }
 
     private void GetLevelReady()
     {
-        _player = Instantiate(Player, Levels[_level].StartPosition, Quaternion.identity);
+        _player = Instantiate(PlayerPrefab, Levels[_level].StartPosition, Quaternion.identity);
+        playerController = _player.GetComponent<PlayerController>();
         Portal.SetActive(true);
         levelReady = true;
 
