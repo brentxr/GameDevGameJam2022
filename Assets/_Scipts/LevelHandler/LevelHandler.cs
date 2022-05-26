@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class LevelHandler : MonoBehaviour
 {
@@ -34,6 +36,10 @@ public class LevelHandler : MonoBehaviour
 
     public TextMeshProUGUI LevelText;
 
+    private AudioSource _audioSource;
+    public AudioClip pop;
+    public AudioClip portal;
+
     public int _level;
     public bool overrideLevel;
     private float timeElapsed;
@@ -50,12 +56,14 @@ public class LevelHandler : MonoBehaviour
 
     private void Start()
     {
+        DOTween.SetTweensCapacity(20000, 50);
         if (!overrideLevel)
             _level = -1;
         Enemy.OnTakeDamage += ResetPlayer;
         Spikes.OnTakeDamage += ResetPlayer;
         OutOfBounds.OnTakeDamage += ResetPlayer;
         EndPortal.OnEnterPortal += EnterEndPortal;
+        _audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -74,9 +82,8 @@ public class LevelHandler : MonoBehaviour
                 if (Levels[_level].PlatformsLocation[i] != Vector3.zero)
                 {
                     Platforms[i].SetActive(true);
-                    Platforms[i].transform.position = Vector3.Lerp(Platforms[i].transform.position, Levels[_level].PlatformsLocation[i], timeElapsed * .01f / lerpDuration);
-                    Platforms[i].transform.rotation = Quaternion.Lerp(Platforms[i].transform.rotation, Levels[_level].PlatformsRotation[i], timeElapsed * .01f / lerpDuration);
-                    
+                    Platforms[i].transform.DOMove(Levels[_level].PlatformsLocation[i], lerpDuration);
+                    Platforms[i].transform.DORotate(Levels[_level].PlatformsRotation[i], lerpDuration);
                 }
                 else
                 {
@@ -91,8 +98,8 @@ public class LevelHandler : MonoBehaviour
                 if (Levels[_level].EnemyLocation[i] != Vector3.zero)
                 {
                     Enemies[i].SetActive(true);
-                    Enemies[i].transform.position = Vector3.Lerp(Enemies[i].transform.position, Levels[_level].EnemyLocation[i], timeElapsed * .01f / lerpDuration);
-                    Enemies[i].transform.rotation = Quaternion.Lerp(Enemies[i].transform.rotation, Levels[_level].EnemyRotation[i], timeElapsed * .01f / lerpDuration);
+                    Enemies[i].transform.DOMove(Levels[_level].EnemyLocation[i], lerpDuration);
+                    Enemies[i].transform.DORotate(Levels[_level].EnemyRotation[i], lerpDuration);
                 }
                 else
                 {
@@ -105,8 +112,8 @@ public class LevelHandler : MonoBehaviour
                 if (Levels[_level].TrapLocations[i] != Vector3.zero)
                 {
                     Traps[i].SetActive(true);
-                    Traps[i].transform.position = Vector3.Lerp(Traps[i].transform.position, Levels[_level].TrapLocations[i], timeElapsed * .01f / lerpDuration);
-                    Traps[i].transform.rotation = Quaternion.Lerp(Traps[i].transform.rotation, Levels[_level].TrapRotations[i], timeElapsed * .01f / lerpDuration);
+                    Traps[i].transform.DOMove(Levels[_level].TrapLocations[i], lerpDuration);
+                    Traps[i].transform.DORotate(Levels[_level].TrapRotations[i], lerpDuration);
                 }
                 else
                 {
@@ -126,6 +133,7 @@ public class LevelHandler : MonoBehaviour
     
     private void EnterEndPortal()
     {
+        _audioSource.PlayOneShot(portal);
         Destroy(_player);
         FinishedLevel();
     }
@@ -133,7 +141,7 @@ public class LevelHandler : MonoBehaviour
     
     private void ResetPlayer()
     {
-        
+        _audioSource.PlayOneShot(pop);
         _player.transform.position = Levels[_level].StartPosition;
         _player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         StartCoroutine(PauseInput());
@@ -160,6 +168,11 @@ public class LevelHandler : MonoBehaviour
     {
         
         _level++;
+
+        if (_level == Levels.Length)
+        {
+            SceneManager.LoadScene(3);
+        }
         LevelText.SetText((_level + 1).ToString());
         Portal.transform.position = Levels[_level].EndPortal;
         levelJustStarted = true;

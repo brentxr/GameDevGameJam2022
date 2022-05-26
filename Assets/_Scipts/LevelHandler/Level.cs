@@ -15,7 +15,7 @@ public class Level : ScriptableObject
     // Platforms
     [Header("Platforms")]
     public Vector3[] PlatformsLocation;
-    public Quaternion[] PlatformsRotation;
+    public Vector3[] PlatformsRotation;
     /*public Vector3 PlatformTwo;
     public Vector3 PlatformThree;
     public Vector3 PlatformFour;
@@ -24,12 +24,12 @@ public class Level : ScriptableObject
     // Enemies
     [Header("Enemy start Locations")]
     public Vector3[] EnemyLocation;
-    public Quaternion[] EnemyRotation;
+    public Vector3[] EnemyRotation;
 
     // Traps
     [Header("Trap Locations")]
     public Vector3[] TrapLocations;
-    public Quaternion[] TrapRotations;
+    public Vector3[] TrapRotations;
 
 
 

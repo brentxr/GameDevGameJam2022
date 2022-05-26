@@ -22,7 +22,20 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded;
     private BoxCollider2D _boxCollider;
 
+    bool isTouchingFront;
+    public Transform frontCheck;
+    bool wallSliding;
+    public float wallSlidingSpeed;
+
+    bool wallJumping;
+    public float xWallForce;
+    public float yWallForce;
+    public float wallJumpTime;
+
     private Rigidbody2D _rig;
+    private AudioSource _audioSource;
+    public AudioClip jump;
+    
 
     private int _facing;
 
@@ -33,14 +46,30 @@ public class PlayerController : MonoBehaviour
     {
         _rig = GetComponent<Rigidbody2D>();
         _boxCollider = GetComponent<BoxCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
         canMove = true;
     }
 
     private void FixedUpdate()
     {
         if (canMove)
-            Move();
-        
+            if (IsOnWall())
+                _rig.velocity = new Vector2(_rig.velocity.x, Mathf.Clamp(_rig.velocity.y, wallSlidingSpeed, float.MaxValue));
+            else 
+                Move();
+
+        //isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, .1f, groundLayer);
+
+        if (IsOnWall() && !IsGrounded())
+        {
+            Debug.Log("On Wall");
+            wallSliding = true;
+        }
+        else
+        {
+            wallSliding = false;
+        }
+
     }
 
     public void OnCollisionEnter2D(Collision2D col)
@@ -56,23 +85,25 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (IsGrounded())
+        if (IsGrounded() && !IsOnWall())
         {
             _rig.velocity = new Vector2(_rig.velocity.x, 0);
             _rig.AddForce(Vector2.up* jumpForce, ForceMode2D.Impulse);
+            _audioSource.PlayOneShot(jump);
         }
+
         else if (IsOnWall() && !IsGrounded())
         {
             if (_curMoveInput == 0)
             {
-                _rig.velocity = new Vector2(-Mathf.Sign(_facing) * 10, 6);
-                _facing *= -1;
+                _rig.velocity = new Vector2(Mathf.Sign(_facing) * 10, 10);
             }
-            else
+            else if (_curMoveInput > 0 || _curMoveInput < 0)
             {
-                _rig.velocity = new Vector2(-Mathf.Sign(_facing) * 3, 6);
+                _rig.velocity = new Vector2(Mathf.Sign(_facing) * 10, 10);
             }
             
+
             _wallJumpCooldown = 0;
             
         }
@@ -94,26 +125,28 @@ public class PlayerController : MonoBehaviour
     
     private bool IsOnWall()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(
-            _boxCollider.bounds.center, 
-            _boxCollider.bounds.size, 
-            0, 
-            new Vector2(transform.localScale.x, 0), 
-            0.1f, 
-            wallLayer);
+        return Physics2D.OverlapCircle(frontCheck.position, 0.1f, groundLayer);
         
-        //Debug.Log("Is OnWall");
-        return hit.collider != null;
+        
+        // return hit.collider != null;
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
         _curMoveInput = context.ReadValue<float>();
 
-        if (_curMoveInput > 0.01f)
+        if (_curMoveInput != 0 && _curMoveInput > 0)
+        {
             _facing = 1;
-        else if (_curMoveInput < -0.01f)
+            //frontCheck.localPosition = new Vector3(-frontCheck.localPosition.x, frontCheck.localPosition.y, frontCheck.localPosition.z);
+        }
+            
+        else if (_curMoveInput != 0 &&  _curMoveInput < 0)
+        {
             _facing = -1;
+            //frontCheck.localPosition = new Vector3(-frontCheck.localPosition.x, frontCheck.localPosition.y, frontCheck.localPosition.z);
+        }
+            
     }
 
     public void OnJumpInput(InputAction.CallbackContext context)
