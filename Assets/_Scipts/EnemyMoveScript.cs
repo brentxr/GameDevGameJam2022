@@ -8,18 +8,41 @@ public class EnemyMoveScript : MonoBehaviour
     public Transform startingPoint;
     public Transform pointA;
     public Transform pointB;
-    
-    private void Start()
-    {
-        transform.DOMove(pointA.position, 1);
-    }
-    
+
+    public GameObject sprite;
+
+    public float duration = 2f;
+
+    private bool isReady;
+    private bool isMovingUp = true;
+    float elapsedTime;
+
+
+
     private void Update()
     {
 
-        if (transform.position == pointA.position)
-            transform.DOMove(pointB.position, 1);
-        if (transform.position == pointB.position) 
-            transform.DOMove(pointA.position, 1);
+
+        elapsedTime += Time.deltaTime;
+        if (isMovingUp)
+        {
+            sprite.transform.DOMove(pointB.position, duration);
+            if (elapsedTime >= duration)
+            {
+                elapsedTime = 0f;
+                isMovingUp = false;
+            }
+            
+        }
+        else
+        {
+            sprite.transform.DOMove(pointA.position, duration);
+            if (elapsedTime >= duration)
+            {
+                elapsedTime = 0f;
+                isMovingUp = true;
+            }
+        }
+
     }
 }

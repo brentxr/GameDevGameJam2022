@@ -75,7 +75,7 @@ public class LevelHandler : MonoBehaviour
             timeElapsed = 0;
         }
         
-        if (timeElapsed < lerpDuration)
+        if (timeElapsed < lerpDuration && _level != Levels.Length)
         {
             for (int i = 0; i < Platforms.Length; i++)
             {
@@ -171,7 +171,25 @@ public class LevelHandler : MonoBehaviour
 
         if (_level == Levels.Length)
         {
+            for (int i = 0; i < Platforms.Length; i++)
+            {
+                Destroy(Platforms[i]);
+            }
+
+            for (int i = 0; i < Enemies.Length; i++)
+            {
+                Destroy(Enemies[i]);
+            }
+
+            for (int i = 0; i < Traps.Length; i++)
+            {
+                Destroy(Traps[i]);
+            }
+
+            DOTween.KillAll();
             SceneManager.LoadScene(3);
+
+            return;
         }
         LevelText.SetText((_level + 1).ToString());
         Portal.transform.position = Levels[_level].EndPortal;

@@ -12,11 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6575834c2fae846b517ad2b7b12e44, type: 3}
   m_Name: Level_Five
   m_EditorClassIdentifier: 
-  StartPosition: {x: 0, y: 0, z: 0}
-  EndPortal: {x: 0, y: 0, z: 0}
-  PlatformsLocation: []
-  PlatformsRotation: []
-  EnemyLocation: []
-  EnemyRotation: []
-  TrapLocations: []
-  TrapRotations: []
+  StartPosition: {x: -7, y: -2.66, z: 0}
+  EndPortal: {x: 4.01, y: -0.37, z: 0}
+  PlatformsLocation:
+  - {x: -5.42, y: -4, z: 0}
+  - {x: -0.03, y: 0.55, z: 0}
+  - {x: 7.28, y: -1.09, z: 0}
+  - {x: -0.18, y: -4, z: 0}
+  - {x: 3.97, y: -4, z: 0}
+  PlatformsRotation:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 90}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  EnemyLocation:
+  - {x: -1.93, y: -3.6, z: 0}
+  - {x: 1.97, y: -3.6, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  EnemyRotation:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  TrapLocations:
+  - {x: -0.18, y: -0.28, z: 0}
+  - {x: 6.5, y: 0.32, z: 0}
+  TrapRotations:
+  - {x: 0, y: 0, z: 180}
+  - {x: 0, y: 0, z: 90}
