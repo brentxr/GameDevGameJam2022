@@ -631,6 +631,8 @@ MonoBehaviour:
   yWallForce: 0
   wallJumpTime: 0
   jump: {fileID: 8300000, guid: 5e852a66867716143a97b8c153fae3c7, type: 3}
+  coyoteTime: 0.2
+  jumpBufferTime: 0.1
   canMove: 0
 --- !u!114 &7061286389730377405
 MonoBehaviour:

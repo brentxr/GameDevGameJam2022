@@ -35,6 +35,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rig;
     private AudioSource _audioSource;
     public AudioClip jump;
+
+    public float coyoteTime = 0.2f;
+    private float coyoteTimeCounter;
+
+    public float jumpBufferTime = 0.2f;
+    private float jumpBufferCounter;
     
 
     private int _facing;
@@ -52,6 +58,29 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        if (IsGrounded())
+        {
+            coyoteTimeCounter = coyoteTime;
+            if (jumpBufferCounter > 0)
+            {
+                _rig.velocity = new Vector2(_rig.velocity.x, 0);
+                _rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                _audioSource.PlayOneShot(jump);
+
+                jumpBufferCounter = 0f;
+            }
+        }    
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        
+        
+
+
         if (canMove)
             if (IsOnWall())
                 _rig.velocity = new Vector2(_rig.velocity.x, Mathf.Clamp(_rig.velocity.y, wallSlidingSpeed, float.MaxValue));
@@ -59,6 +88,7 @@ public class PlayerController : MonoBehaviour
                 Move();
 
         //isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, .1f, groundLayer);
+
 
         if (IsOnWall() && !IsGrounded())
         {
@@ -85,13 +115,17 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (IsGrounded() && !IsOnWall())
+
+        jumpBufferCounter = jumpBufferTime;
+
+        if (coyoteTimeCounter > 0f && !IsOnWall())
         {
             _rig.velocity = new Vector2(_rig.velocity.x, 0);
-            _rig.AddForce(Vector2.up* jumpForce, ForceMode2D.Impulse);
+            _rig.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             _audioSource.PlayOneShot(jump);
-        }
 
+            jumpBufferCounter = 0f;
+        }
         else if (IsOnWall() && !IsGrounded())
         {
             if (_curMoveInput == 0)
@@ -106,6 +140,25 @@ public class PlayerController : MonoBehaviour
 
             _wallJumpCooldown = 0;
             
+        }
+        else if (IsOnWall() && IsGrounded())
+        {
+            if (_curMoveInput == 0)
+            {
+                _rig.velocity = new Vector2(Mathf.Sign(_facing) * 10, 10);
+            }
+            else if (_curMoveInput > 0 || _curMoveInput < 0)
+            {
+                _rig.velocity = new Vector2(Mathf.Sign(_facing) * 10, 10);
+            }
+
+
+            _wallJumpCooldown = 0;
+        }
+
+        if (_rig.velocity.y > 0f)
+        {
+            coyoteTimeCounter = 0f;
         }
         
     }
