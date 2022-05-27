@@ -51,6 +51,8 @@ public class LevelHandler : MonoBehaviour
     private bool levelJustStarted;
     private bool levelReady;
     private GameObject _player;
+
+    private bool morphLevel;
     
     
 
@@ -74,7 +76,21 @@ public class LevelHandler : MonoBehaviour
             SetupLevel();
             timeElapsed = 0;
         }
-        
+
+        if (morphLevel)
+            MorphLevel();
+
+        if (timeElapsed >= lerpDuration && !levelReady)
+        {
+            GetLevelReady();
+        }
+
+        timeElapsed += Time.deltaTime;
+    }
+
+    private void MorphLevel()
+    {
+
         if (timeElapsed < lerpDuration && _level != Levels.Length)
         {
             for (int i = 0; i < Platforms.Length; i++)
@@ -89,8 +105,8 @@ public class LevelHandler : MonoBehaviour
                 {
                     Platforms[i].SetActive(false);
                 }
-                
-                
+
+
             }
 
             for (int i = 0; i < Enemies.Length; i++)
@@ -106,7 +122,7 @@ public class LevelHandler : MonoBehaviour
                     Enemies[i].SetActive(false);
                 }
             }
-            
+
             for (int i = 0; i < Traps.Length; i++)
             {
                 if (Levels[_level].TrapLocations[i] != Vector3.zero)
@@ -120,17 +136,14 @@ public class LevelHandler : MonoBehaviour
                     Traps[i].SetActive(false);
                 }
             }
+
             
-            timeElapsed += Time.deltaTime;
-            
+
         }
 
-        if (timeElapsed >= lerpDuration && !levelReady)
-        {
-            GetLevelReady();
-        }
+        morphLevel = false;
     }
-    
+
     private void EnterEndPortal()
     {
         _audioSource.PlayOneShot(portal);
@@ -161,13 +174,14 @@ public class LevelHandler : MonoBehaviour
         playerController = _player.GetComponent<PlayerController>();
         Portal.SetActive(true);
         levelReady = true;
-
+        
     }
 
     private void SetupLevel()
     {
         
         _level++;
+        morphLevel = true;
 
         if (_level == Levels.Length)
         {
@@ -195,6 +209,7 @@ public class LevelHandler : MonoBehaviour
         Portal.transform.position = Levels[_level].EndPortal;
         levelJustStarted = true;
         levelReady = false;
+        
         //StartPos.transform.position = Levels[_level].StartPosition;
     }
 
