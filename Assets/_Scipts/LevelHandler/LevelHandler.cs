@@ -181,13 +181,16 @@ public class LevelHandler : MonoBehaviour
     {
         if (!resetingPlayer)
         {
-            resetingPlayer = true;
-            PlayParticles(_player.transform);
-            _audioSource.PlayOneShot(pop);
-            _player.SetActive(false);
-            _player.transform.position = Levels[_level].StartPosition;
-            _player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            StartCoroutine(PauseInput());
+            if (pop != null && _audioSource != null)
+            {
+                resetingPlayer = true;
+                PlayParticles(_player.transform);
+                _audioSource.PlayOneShot(pop);
+                _player.SetActive(false);
+                _player.transform.position = Levels[_level].StartPosition;
+                _player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                StartCoroutine(PauseInput());
+            }
         }
         
         

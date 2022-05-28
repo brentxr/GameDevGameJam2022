@@ -10,7 +10,7 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        audioSource.PlayOneShot(clip);
+        //audioSource.PlayOneShot(clip);
 
     }
 
