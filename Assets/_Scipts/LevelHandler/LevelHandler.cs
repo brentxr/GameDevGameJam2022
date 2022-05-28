@@ -151,10 +151,14 @@ public class LevelHandler : MonoBehaviour
 
     private void EnterEndPortal()
     {
-        PlayPortalParticles(Levels[_level].EndPortal);
-        _audioSource.PlayOneShot(portal);
-        Destroy(_player);
-        FinishedLevel();
+        if (portal != null && _audioSource != null)
+        {
+            PlayPortalParticles(Levels[_level].EndPortal);
+            _audioSource.PlayOneShot(portal);
+            Destroy(_player);
+            FinishedLevel();
+        }
+        
     }
 
     private void PlayPortalParticles(Vector3 v)
@@ -162,11 +166,14 @@ public class LevelHandler : MonoBehaviour
 
         //GameObject temp = new GameObject();
         //temp.transform.position = v;
-        GameObject newObj = Instantiate(portalParticles);
-        newObj.transform.position = v;
-        //newObj.transform.position = t.position;
-        newObj.GetComponent<ParticleSystem>().Play();
-        Debug.Log("Play");
+        if (portalParticles != null)
+        {
+            GameObject newObj = Instantiate(portalParticles);
+            newObj.transform.position = v;
+            //newObj.transform.position = t.position;
+            newObj.GetComponent<ParticleSystem>().Play();
+        }
+        
     }
     
     
