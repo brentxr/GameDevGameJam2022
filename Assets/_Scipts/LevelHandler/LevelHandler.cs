@@ -76,6 +76,7 @@ public class LevelHandler : MonoBehaviour
 
     private void Update()
     {
+
         if (!levelJustStarted)
         {
             SetupLevel();
@@ -217,7 +218,7 @@ public class LevelHandler : MonoBehaviour
         _player = Instantiate(PlayerPrefab, Levels[_level].StartPosition, Quaternion.identity);
         playerController = _player.GetComponent<PlayerController>();
         Portal.SetActive(true);
-        levelReady = true;
+        levelReady = true; 
         
     }
 
@@ -227,7 +228,7 @@ public class LevelHandler : MonoBehaviour
         _level++;
         morphLevel = true;
 
-        if (_level == Levels.Length)
+        if (_level >= Levels.Length)
         {
             for (int i = 0; i < Platforms.Length; i++)
             {
@@ -245,7 +246,7 @@ public class LevelHandler : MonoBehaviour
             }
 
             DOTween.KillAll();
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(2);
 
             return;
         }
