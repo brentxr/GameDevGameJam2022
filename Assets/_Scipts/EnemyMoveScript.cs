@@ -18,6 +18,12 @@ public class EnemyMoveScript : MonoBehaviour
     float elapsedTime;
 
 
+    private void Awake()
+    {
+        duration = Random.Range(1f, 3f);
+    }
+
+
 
     private void Update()
     {

@@ -40,6 +40,8 @@ public class LevelHandler : MonoBehaviour
     public AudioClip pop;
     public AudioClip portal;
 
+    private bool resetingPlayer;
+
     public int _level;
     public bool overrideLevel;
     private float timeElapsed;
@@ -47,6 +49,9 @@ public class LevelHandler : MonoBehaviour
     private float startValue = 0;
     private float endValue = 10;
     private float valueToLerp;
+
+    public GameObject deathParticles;
+    public GameObject portalParticles;
 
     private bool levelJustStarted;
     private bool levelReady;
@@ -146,26 +151,55 @@ public class LevelHandler : MonoBehaviour
 
     private void EnterEndPortal()
     {
+        PlayPortalParticles(Levels[_level].EndPortal);
         _audioSource.PlayOneShot(portal);
         Destroy(_player);
         FinishedLevel();
+    }
+
+    private void PlayPortalParticles(Vector3 v)
+    {
+
+        //GameObject temp = new GameObject();
+        //temp.transform.position = v;
+        GameObject newObj = Instantiate(portalParticles);
+        newObj.transform.position = v;
+        //newObj.transform.position = t.position;
+        newObj.GetComponent<ParticleSystem>().Play();
+        Debug.Log("Play");
     }
     
     
     private void ResetPlayer()
     {
-        _audioSource.PlayOneShot(pop);
-        _player.transform.position = Levels[_level].StartPosition;
-        _player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        StartCoroutine(PauseInput());
+        if (!resetingPlayer)
+        {
+            resetingPlayer = true;
+            PlayParticles(_player.transform);
+            _audioSource.PlayOneShot(pop);
+            _player.SetActive(false);
+            _player.transform.position = Levels[_level].StartPosition;
+            _player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            StartCoroutine(PauseInput());
+        }
         
+        
+    }
+
+    private void PlayParticles(Transform t)
+    {
+        GameObject newObj = Instantiate(deathParticles);
+        newObj.transform.position = t.position;
+        newObj.GetComponent<ParticleSystem>().Play();
     }
 
     IEnumerator PauseInput()
     {
         playerController.canMove = false;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
         playerController.canMove = true;
+        resetingPlayer = false;
+        _player.SetActive(true);
     }
 
     private void GetLevelReady()

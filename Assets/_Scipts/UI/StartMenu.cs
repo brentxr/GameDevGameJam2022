@@ -26,6 +26,7 @@ public class StartMenu : MonoBehaviour
     public void OnStartButton()
     {
         audioSource.PlayOneShot(audioClip);
+        SceneManager.LoadScene(1);
         StartCoroutine(WaitForSound());
 
     }
@@ -34,7 +35,7 @@ public class StartMenu : MonoBehaviour
     {
 
         yield return new WaitForSeconds(.5f);
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(1);
     }
 
     public void OnControlsButton()

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da6575834c2fae846b517ad2b7b12e44, type: 3}
-  m_Name: Level_Eight
+  m_Name: Level_10
   m_EditorClassIdentifier: 
-  StartPosition: {x: -7.07, y: -3.09, z: 0}
-  EndPortal: {x: 6.26, y: -1.39, z: 0}
+  StartPosition: {x: -6.98, y: -3.02, z: 0}
+  EndPortal: {x: -2.5, y: 0.3, z: 0}
   PlatformsLocation:
-  - {x: -5.49, y: -4.26, z: 0}
-  - {x: 4.92, y: -4.13, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: -2.26, y: -2.59, z: 0}
-  - {x: 0.96, y: -2.59, z: 0}
+  - {x: -5.55, y: -4.2, z: 0}
+  - {x: 2.75, y: -4.16, z: 0}
+  - {x: 2.81, y: -1.18, z: 0}
+  - {x: -1.5, y: -4.19, z: 0}
+  - {x: 6.9, y: -2.59, z: 0}
   PlatformsRotation:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -27,18 +27,18 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   EnemyLocation:
-  - {x: -5.47, y: -2.29, z: 0}
-  - {x: -0.55, y: -2.96, z: 0}
-  - {x: -0.55, y: -1.12, z: 0}
-  - {x: 6.03, y: -2.46, z: 0}
+  - {x: -2.83, y: -3, z: 0}
+  - {x: 0.02, y: -3, z: 0}
+  - {x: 5.08, y: 0.03, z: 0}
+  - {x: -1.11, y: -0.02, z: 0}
   EnemyRotation:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 90}
+  - {x: 0, y: 0, z: -90}
+  - {x: 0, y: 0, z: 180}
   TrapLocations:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: 2.1, y: -1.93, z: 0}
+  - {x: 6.89, y: -3.39, z: 0}
   TrapRotations:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 180}
+  - {x: 0, y: 0, z: 180}

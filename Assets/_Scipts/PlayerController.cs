@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     bool isTouchingFront;
     public Transform frontCheck;
+    public Transform backCheck;
     bool wallSliding;
     public float wallSlidingSpeed;
 
@@ -92,7 +93,6 @@ public class PlayerController : MonoBehaviour
 
         if (IsOnWall() && !IsGrounded())
         {
-            Debug.Log("On Wall");
             wallSliding = true;
         }
         else
@@ -178,7 +178,7 @@ public class PlayerController : MonoBehaviour
     
     private bool IsOnWall()
     {
-        return Physics2D.OverlapCircle(frontCheck.position, 0.1f, groundLayer);
+        return (Physics2D.OverlapCircle(frontCheck.position, 0.1f, groundLayer) || Physics2D.OverlapCircle(backCheck.position, 0.1f, groundLayer));
         
         
         // return hit.collider != null;
